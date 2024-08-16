@@ -8,65 +8,69 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const params = {
+  api_token: "b2959c71392c4d77ab6ef95f359cec07",
+  categories: '',
+  search: '',
+  limit: '3'
+}
+
 /* app.get("/api/notes", async (req, res) => {
   res.json({ message: "success!" });
 }); */
 
-app.get("/api/notes", async (req,res) =>{
-    const notes = await prisma.note.findMany();
-    res.json(notes);
+app.get("/api/news/", async(req, res) => {
+  const response = await fetch(`https://api.thenewsapi.com/v1/news/top?api_token=${params.api_token}&locale=us&limit=${params.limit}`);
+  const articles = await response.json();
+  res.json(articles);
 });
 
-app.post("/api/notes", async (req, res) => {
-    const { title, content } = req.body;
+app.get("/api/favorites", async (req,res) =>{
+    const favorites = await prisma.favorites.findMany();
+    res.json(favorites);
+});
+
+app.post("/api/favorites", async (req, res) => {
+    const { uuid,
+      title,
+      description,
+      content,
+      url,
+      image_url,
+      publication_date,
+      source} = req.body;
   
-    if (!title || !content) {
-      return res.status(400).send("title and content fields required");
+    if (!uuid) {
+      return res.status(400).send("uuid fields required");
     }
   
     try {
-      const note = await prisma.note.create({
-        data: { title, content },
+      const favorite = await prisma.favorites.create({
+        data: { uuid,
+          title,
+          description,
+          content,
+          url,
+          image_url,
+          publication_date,
+          source },
       });
-      res.json(note);
+      res.json(favorite);
     } catch (error) {
       res.status(500).send("Oops, something went wrong");
     }
 });
 
-app.put("/api/notes/:id", async (req, res) => {
-    const { title, content } = req.body;
-    const id = parseInt(req.params.id);
-
-    if (!title || !content) {
-        return res.status(400).send("title and content fields required");
-    }
-
-    if (!id || isNaN(id)) {
-        return res.status(400).send("ID must be a valid number");
-    }
-
-    try {
-        const updatedNote = await prisma.note.update({
-        where: { id },
-        data: { title, content },
-        });
-        res.json(updatedNote);
-    } catch (error) {
-        res.status(500).send("Oops, something went wrong");
-    }
-});
-
-app.delete("/api/notes/:id", async (req, res) => {
-    const id = parseInt(req.params.id);
-  
-    if (!id || isNaN(id)) {
+app.delete("/api/favorites/:uuid", async (req, res) => {
+    //const id = parseInt(req.params.id);
+    const uuid:string = req.params.uuid;
+    if (!uuid) {
       return res.status(400).send("ID field required");
     }
   
     try {
-      await prisma.note.delete({
-        where: { id },
+      await prisma.favorites.delete({
+        where: { uuid },
       });
       res.status(204).send();
     } catch (error) {
