@@ -12,7 +12,7 @@ function Navbar() {
     <>
       <div className='navbar'>
         <Link to='#' className='menu-bars'>
-          <span onClick={showSidebar}>{'\u2630'}</span>
+          <span onClick={showSidebar}>SideBar</span>
         </Link>
       </div>
       <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>

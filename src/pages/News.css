@@ -4,6 +4,36 @@
   gap: 20px;
 }
 
+.search-form{
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search-form input{
+  width: 100px; 
+  height: 40px
+}
+
+.search-form button{
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: #8a8a8a;
+}
+
+.search-form button:hover {
+  background-color: #228a1f
+}
+
+.search-form button:active {
+  background-color: #228a1f;
+  box-shadow: 0 5px #666;
+  transform: translateY(1px);
+}
+
 .news-article-preview, .news-article {
   background-color: white;
   border-radius: 8px;
@@ -52,4 +82,9 @@
 
 .news-article button {
   margin-top: 20px;
+}
+
+.MuiAutocomplete-inputRoot {
+  max-height: 50px !important;
+  overflow-y: auto;
 }

@@ -1,0 +1,393 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is News App",
+    "version": "1.0.0",
+    "title": "Fetch News App",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "vvincentcheungg@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:5000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "news",
+      "description": "Everything about News"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/news/searchHistory": {
+      "get": {
+        "tags": [
+          "news"
+        ],
+        "summary": "Get all search history",
+        "description": "",
+        "operationId": "getSearchHistory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "searchquery": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "tags": [
+          "news"
+        ],
+        "summary": "Add a search history",
+        "description": "",
+        "operationId": "postSearchHistory",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "String of the search history",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "query": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/news/favorites": {
+      "get": {
+        "tags": [
+          "news"
+        ],
+        "summary": "Get all favorite news",
+        "description": "",
+        "operationId": "getFavorites",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/favoriteArticle"
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "tags": [
+          "news"
+        ],
+        "summary": "Add a news to favorites",
+        "description": "",
+        "operationId": "postFavorites",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "news",
+            "description": "Details of the news",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Article"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/favoriteArticle"
+            }
+          },
+          "400": {
+            "description": "url fields required"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/news/favorites/{id}": {
+      "delete": {
+        "tags": [
+          "news"
+        ],
+        "summary": "Delete a favorite news by id",
+        "description": "",
+        "operationId": "deleteFavorite",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID of news",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Entry deleted"
+          },
+          "400": {
+            "description": "ID field required"
+          },
+          "500": {
+            "description": "Pet not found"
+          }
+        },
+        "security": []
+      }
+    },
+    "/news/query": {
+      "get": {
+        "tags": [
+          "news"
+        ],
+        "summary": "Query on news",
+        "description": "",
+        "operationId": "query",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "description": "keywords/phases for search",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Send empty value if not used",
+            "required": true,
+            "allowEmptyValue": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "description": "Send empty value if not used",
+            "required": true,
+            "allowEmptyValue": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page of search results",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pageSize of search results",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "definitions": {
+    "Article": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "publication_date": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "favoriteArticle": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "publication_date": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "format": "string"
+        },
+        "totalResults": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "articles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "string"
+                  },
+                  "name": {
+                    "type": "string",
+                    "format": "string"
+                  }
+                }
+              },
+              "author": {
+                "type": "string",
+                "format": "string"
+              },
+              "title": {
+                "type": "string",
+                "format": "string"
+              },
+              "description": {
+                "type": "string",
+                "format": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "string"
+              },
+              "urlToImage": {
+                "type": "string",
+                "format": "string"
+              },
+              "publishedAt": {
+                "type": "string",
+                "format": "string"
+              },
+              "content": {
+                "type": "string",
+                "format": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

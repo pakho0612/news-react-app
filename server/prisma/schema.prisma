@@ -14,12 +14,16 @@ model note {
 }
 
 model favorites {
-  uuid             String  @id @db.VarChar(255)
-  title            String  @db.VarChar(255)
+  id               Int     @id @default(autoincrement())
+  url              String? @db.VarChar(255)
+  title            String? @db.VarChar(255)
   description      String? @db.VarChar(255)
   content          String? @db.VarChar(255)
-  url              String  @db.VarChar(255)
   image_url        String? @db.VarChar(255)
-  publication_date String  @db.VarChar(255)
-  source           String  @db.VarChar(255)
+  publication_date String? @db.VarChar(255)
+  source           String? @db.VarChar(255)
+}
+
+model search_history {
+  searchquery String @id @db.VarChar(255)
 }

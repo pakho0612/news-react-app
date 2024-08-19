@@ -1,7 +1,7 @@
 import './App.css';
-import News from './News';
-import Favorites from './Favorites';
-import Navbar from './Navbar';
+import News from './pages/News';
+import Favorites from './pages/Favorites';
+import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
